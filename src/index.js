@@ -37,7 +37,7 @@ class HexNut {
 
       ws.on('close', () => {
         delete this.connections[id];
-      })
+      });
     });
   }
 

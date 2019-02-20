@@ -2,7 +2,14 @@
 
 HexNut is a middleware based, express/koa like framework for web sockets.
 
-## Trivial Example
+## Middlwares
+
+* <a href="https://github.com/francisrstokes/hexnut-bodyparser">hexnut-bodyparser</a>: Automatically parse JSON messages
+* <a href="https://github.com/francisrstokes/hexnut-sequence">hexnut-sequence</a>: Create sequenced conversations between client and server
+
+## Examples
+
+### Trivial Example
 
 ```javascript
 const HexNut = require('hexnut');
@@ -21,7 +28,7 @@ app.use(ctx => {
 app.start();
 ```
 
-## Parsing JSON
+### Parsing JSON
 
 ```javascript
 const HexNut = require('hexnut');
@@ -47,7 +54,7 @@ app.use(ctx => {
 app.start();
 ```
 
-## Sequencing Interactions
+### Sequencing Interactions
 
 ```javascript
 const HexNut = require('hexnut');

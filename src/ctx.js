@@ -8,7 +8,6 @@ const ctx = {
     this.type = 'message';
     this.isComplete = false;
     this.message = message;
-    this.queue = [];
   },
 
   send(data) {
@@ -46,6 +45,14 @@ const ctx = {
 
   get ip() {
     return this[REQUEST_SYMBOL].connection.remoteAddress;
+  },
+
+  get path() {
+    return this[REQUEST_SYMBOL].url;
+  },
+
+  get method() {
+    return this[REQUEST_SYMBOL].method;
   }
 };
 

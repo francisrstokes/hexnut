@@ -1,4 +1,4 @@
 module.exports = {
-  SOCKET_SYMBOL: Symbol('@@WebsocketConnection'),
-  REQUEST_SYMBOL: Symbol('@@WebsocketRequest'),
+  SOCKET_SYMBOL: '@@WebsocketConnection',
+  REQUEST_SYMBOL: '@@WebsocketRequest',
 }
