@@ -6,6 +6,7 @@ HexNut is a middleware based, express/koa like framework for web sockets.
 
 * <a href="https://github.com/francisrstokes/hexnut-bodyparser">hexnut-bodyparser</a>: Automatically parse JSON messages
 * <a href="https://github.com/francisrstokes/hexnut-sequence">hexnut-sequence</a>: Create sequenced conversations between client and server
+* <a href="https://github.com/francisrstokes/hexnut-restore-connection">hexnut-restore-connection</a>: Allow the client to restore a connection state if connectivity is lost
 
 ## Examples
 
