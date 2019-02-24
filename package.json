@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha test/",
+    "coverage": "nyc mocha test/",
     "generate_docs": "jsdoc2md src/index.js > docs.md && jsdoc2md src/ctx.js >> docs.md"
   },
   "keywords": [
@@ -18,8 +19,9 @@
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.2.0",
+    "jsdoc-to-markdown": "^4.0.1",
     "mocha": "^6.0.1",
-    "jsdoc-to-markdown": "^4.0.1"
+    "nyc": "^13.3.0"
   },
   "dependencies": {
     "uuid": "^3.3.2",
