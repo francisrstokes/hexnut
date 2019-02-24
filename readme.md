@@ -2,12 +2,19 @@
 
 HexNut is a middleware based, express/koa like framework for web sockets.
 
+<a href="docs/index.md">For an introduction, and API documentation, please check out the docs.</a>
+
 ## Middleware
 
+* <a href="https://github.com/francisrstokes/hexnut-handle">hexnut-handle</a>: Basic middleware abstraction for handling connections and messages
 * <a href="https://github.com/francisrstokes/hexnut-bodyparser">hexnut-bodyparser</a>: Automatically parse JSON messages
 * <a href="https://github.com/francisrstokes/hexnut-sequence">hexnut-sequence</a>: Create sequenced conversations between client and server
 * <a href="https://github.com/francisrstokes/hexnut-restore-connection">hexnut-restore-connection</a>: Allow the client to restore a connection state if connectivity is lost
-* <a href="https://github.com/francisrstokes/hexnut-router">hexnut-router</a>: Respond differently when sockets connect and communicate on different URLs
+* <a href="https://github.com/francisrstokes/hexnut-router">hexnut-router</a>: Respond differently when sockets connect and communicate on different URLs. Great for versioning!
+
+## Client side
+
+You can use hexnut as a client in the frontend with `hexnut-client`. It is also middleware based and can use many of the server middlewares directly, such as `hexnut-bodyparser` and `hexnut-sequence`.
 
 ## Examples
 
@@ -30,7 +37,7 @@ app.use(ctx => {
 app.start();
 ```
 
-### Parsing JSON
+### Parsing JSON automatically
 
 ```javascript
 const HexNut = require('hexnut');
@@ -55,6 +62,36 @@ app.use(ctx => {
 
 app.start();
 ```
+
+### Handling messages by type
+
+```javascript
+const HexNut = require('hexnut');
+const handle = require('hexnut-handle');
+const app = new HexNut({ port: 8080 });
+
+app.use(handle.connect(ctx => {
+  ctx.count = 0;
+}));
+
+app.use(handle.message(
+  msg => msg === 'incCount',
+  ctx => ctx.count++
+));
+
+app.use(handle.message(
+  msg => msg === 'decCount',
+  ctx => ctx.count--
+));
+
+app.use(handle.message(
+  msg => msg === 'getCount',
+  ctx => ctx.send(ctx.count)
+));
+
+app.start();
+```
+
 
 ### Sequencing Interactions
 
