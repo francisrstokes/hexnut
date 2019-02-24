@@ -1,21 +1,6 @@
-## Classes
+# HexNut Docs - API
 
-<dl>
-<dt><a href="#HexNut">HexNut</a></dt>
-<dd><p>HexNut server instance</p>
-</dd>
-</dl>
-
-## Typedefs
-
-<dl>
-<dt><a href="#middleware">middleware</a> : <code>function</code></dt>
-<dd></dd>
-</dl>
-
-<a name="HexNut"></a>
-
-## HexNut
+## HexNut Server
 HexNut server instance
 
 **Kind**: global class  
@@ -37,7 +22,7 @@ Create a new HexNut instance
 
 <a name="HexNut+use"></a>
 
-### hexNut.use(middleware)
+### app.use(middleware)
 Adds a middleware function to the HexNut instance
 
 **Kind**: instance method of [<code>HexNut</code>](#HexNut)  
@@ -48,7 +33,7 @@ Adds a middleware function to the HexNut instance
 
 <a name="HexNut+start"></a>
 
-### hexNut.start()
+### app.start()
 Start the HexNut Websocket Server
 
 **Kind**: instance method of [<code>HexNut</code>](#HexNut)  
@@ -69,24 +54,23 @@ Context object representing a HexNut connection
 
 **Kind**: global class  
 
-- [Classes](#classes)
-- [Typedefs](#typedefs)
-- [HexNut](#hexnut)
-  - [new HexNut(wsConfig)](#new-hexnutwsconfig)
-  - [hexNut.use(middleware)](#hexnutusemiddleware)
-  - [hexNut.start()](#hexnutstart)
-- [middleware : <code>function</code>](#middleware--codefunctioncode)
-- [ctx](#ctx)
-  - [ctx.isConnection](#ctxisconnection)
-  - [ctx.isMessage](#ctxismessage)
-  - [ctx.requestHeaders](#ctxrequestheaders)
-  - [ctx.ip](#ctxip)
-  - [ctx.path](#ctxpath)
-  - [ctx.method](#ctxmethod)
-  - [ctx.send(data)](#ctxsenddata)
-  - [ctx.sendToAll(data)](#ctxsendtoalldata)
-  - [ctx.done()](#ctxdone)
-  - [ctx.throw(err)](#ctxthrowerr)
+- [HexNut Docs - API](#hexnut-docs---api)
+  - [HexNut Server](#hexnut-server)
+    - [new HexNut(wsConfig)](#new-hexnutwsconfig)
+    - [app.use(middleware)](#appusemiddleware)
+    - [app.start()](#appstart)
+  - [middleware : <code>function</code>](#middleware--codefunctioncode)
+  - [ctx](#ctx)
+    - [ctx.isConnection](#ctxisconnection)
+    - [ctx.isMessage](#ctxismessage)
+    - [ctx.requestHeaders](#ctxrequestheaders)
+    - [ctx.ip](#ctxip)
+    - [ctx.path](#ctxpath)
+    - [ctx.method](#ctxmethod)
+    - [ctx.send(data)](#ctxsenddata)
+    - [ctx.sendToAll(data)](#ctxsendtoalldata)
+    - [ctx.done()](#ctxdone)
+    - [ctx.throw(err)](#ctxthrowerr)
 
 <a name="ctx.isConnection"></a>
 
