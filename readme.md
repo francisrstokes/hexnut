@@ -2,6 +2,10 @@
 
 HexNut is a middleware based, express/koa like framework for web sockets.
 
+[![npm version](https://badge.fury.io/js/hexnut.svg)]()
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
+[![CircleCI](https://circleci.com/gh/francisrstokes/hexnut/tree/master.svg?style=svg)](https://circleci.com/gh/francisrstokes/hexnut/tree/master)
+
 <a href="docs/index.md">For an introduction, and API documentation, please check out the docs.</a>
 
 ## Middleware
