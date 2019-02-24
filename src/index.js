@@ -3,7 +3,22 @@ const uuid = require('uuid/v4');
 const config = require('./config');
 const createCtx = require('./ctx');
 
+/**
+ * @typedef {function(ctx, NextMiddlewareFn)} middleware
+ * @callback middleware
+ * @param {ctx} ctx Context object for the connection
+ * @param {NextMiddlewareFn} next Callback function that triggers the next middleware
+ */
+
+/**
+ * HexNut server instance
+ */
 class HexNut {
+
+  /**
+   * Create a new HexNut instance
+   * @param {object} wsConfig - Config object, mixed with defaults, passed to Websocket.Server constructor
+   */
   constructor(wsConfig = {}) {
     this.config = {
       ...config,
@@ -15,10 +30,18 @@ class HexNut {
     this.connections = {};
   }
 
+  /**
+   * Adds a middleware function to the HexNut instance
+   * @method
+   * @param {middleware} middleware
+   */
   use(middleware) {
     this.middleware.push(middleware);
   }
 
+  /**
+   * Start the HexNut Websocket Server
+   */
   start() {
     this.server = new WebSocket.Server(this.config);
     this.isRunning = true;
@@ -41,12 +64,21 @@ class HexNut {
     });
   }
 
+  /**
+   * @private
+   * @param {Error} err
+   * @param {Context} ctx
+   */
   onError(err, ctx) {
     if (typeof this.onerror === 'function') {
       return this.onerror(err, ctx);
     }
   }
 
+  /**
+   * @private
+   * @param {Context} ctx
+   */
   runMiddleware(ctx) {
     let i = 0;
     const run = async idx => {
