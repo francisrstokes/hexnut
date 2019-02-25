@@ -18,7 +18,7 @@ HexNut is a middleware based, express/koa like framework for web sockets.
 
 ## Client side
 
-You can use hexnut as a client in the frontend with `hexnut-client`. It is also middleware based and can use many of the server middlewares directly, such as `hexnut-bodyparser` and `hexnut-sequence`.
+You can use hexnut as a client in the frontend with <a href="https://github.com/francisrstokes/hexnut-client">`hexnut-client`</a>. It is also middleware based and can use many of the server middlewares directly, such as `hexnut-bodyparser` and `hexnut-sequence`.
 
 ## Examples
 
@@ -115,7 +115,7 @@ app.use(sequence.onConnect(function* (ctx) {
   return;
 }));
 
-app.use(sequence.interuptable(function* (ctx) {
+app.use(sequence.interruptible(function* (ctx) {
   // In order to use this sequence, we assert that we must have a clientName on the ctx
   yield sequence.assert(() => 'clientName' in ctx);
 

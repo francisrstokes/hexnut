@@ -1,6 +1,6 @@
 {
   "name": "hexnut",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A middleware based framework for web sockets",
   "main": "src/index.js",
   "scripts": {
