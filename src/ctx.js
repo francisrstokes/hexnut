@@ -22,8 +22,8 @@ const ctx = {
    * @param {*} data
    * @method
    */
-  send(data) {
-    this[SOCKET_SYMBOL].send(data);
+  send(...args) {
+    this[SOCKET_SYMBOL].send(...args);
     return this;
   },
 
@@ -31,9 +31,9 @@ const ctx = {
    * Send a message to all connected clients
    * @param {*} data
    */
-  sendToAll(data) {
+  sendToAll(...args) {
     Object.values(this.app.connections).forEach(ctx =>
-      ctx[SOCKET_SYMBOL].send(data)
+      ctx[SOCKET_SYMBOL].send(...args)
     );
     return this;
   },
@@ -66,6 +66,13 @@ const ctx = {
    */
   get isMessage() {
     return this.type === 'message';
+  },
+
+  /**
+   * True if this activation of the middlware chain is a closing connection
+   */
+  get isClosing() {
+    return this.type === 'closing';
   },
 
   /**

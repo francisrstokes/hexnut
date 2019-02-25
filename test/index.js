@@ -33,7 +33,7 @@ describe('HexNut App', () => {
     expect(() => {
       app.start();
       setTimeout(() => {
-        app.server.close();
+        app.stop();
         done();
       }, 10);
     }).to.not.throw();
@@ -62,7 +62,7 @@ describe('HexNut App', () => {
       client.send(1);
       setTimeout(() => {
         expect(ran).to.be.true;
-        app.server.close();
+        app.stop();
         done();
       }, 10);
     });
@@ -83,7 +83,7 @@ describe('HexNut App', () => {
       client.send(1);
       setTimeout(() => {
         expect(ran).to.be.true;
-        app.server.close();
+        app.stop();
         done();
       }, 10);
     });
@@ -121,7 +121,7 @@ describe('HexNut App', () => {
         expect(ran).to.be.true;
         expect(ran2).to.be.true;
         expect(ran3).to.be.false;
-        app.server.close();
+        app.stop();
         done();
       }, 10);
     });
@@ -157,7 +157,7 @@ describe('HexNut App', () => {
         expect(ran).to.be.true;
         expect(ran2).to.be.true;
         expect(ran3).to.be.true;
-        app.server.close();
+        app.stop();
         done();
       }, 10);
     });
@@ -185,7 +185,7 @@ describe('HexNut App', () => {
       client.send(1);
       setTimeout(() => {
         expect(ran).to.be.true;
-        app.server.close();
+        app.stop();
         done();
       }, 10);
     });
@@ -212,9 +212,68 @@ describe('HexNut App', () => {
     client.on('open', () => {
       client.send(1);
       setTimeout(() => {
-        app.server.close();
+        app.stop();
         expect(ran).to.be.true;
         expect(ran2).to.be.false;
+        done();
+      }, 10);
+    });
+  });
+
+  it('should send a message to the client', done => {
+    const app = new HexNut({port: PORT});
+    app.start();
+    app.use(ctx => ctx.send('yes'));
+
+    const client = new Websocket(serverAddress);
+
+    let ran = false;
+    client.on('message', () => ran = true);
+
+    client.on('open', () => {
+      setTimeout(() => {
+        app.stop();
+        expect(ran).to.be.true;
+        done();
+      }, 10);
+    });
+  });
+
+  it('should send a message to all clients with sendToAll', done => {
+    const app = new HexNut({port: PORT});
+    app.start();
+    app.use(ctx => ctx.sendToAll('yes'));
+
+    const clients = Array.from({length: 3}, () => new Websocket(serverAddress));
+
+    let ran = clients.map(() => false);
+    clients.forEach((client, i) => client.on('message', () => ran[i] = true));
+
+    setTimeout(() => {
+      app.stop();
+      expect(ran).to.deep.equal(ran.map(() => true));
+      done();
+    }, 10);
+  });
+
+  it('should set isClosing when a connection is closing', done => {
+    const app = new HexNut({port: PORT});
+    app.start();
+
+    let wasClosing = false;
+    app.use(ctx => {
+      if (ctx.isClosing) {
+        wasClosing = true;
+      }
+    });
+
+    const client = new Websocket(serverAddress);
+
+    client.on('open', () => {
+      client.close();
+      setTimeout(() => {
+        app.stop();
+        expect(wasClosing).to.be.true;
         done();
       }, 10);
     });
@@ -250,7 +309,7 @@ describe('ctx', () => {
     client.on('open', () => {
       client.send(1);
       setTimeout(() => {
-        app.server.close();
+        app.stop();
         done();
       }, 10);
     });

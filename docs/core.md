@@ -19,7 +19,7 @@ The `ctx` object is created when a connection is received, and lasts for the lif
 
 - You can send messages to the client using `ctx.send(data)`.
 - You can get the data of a message using `ctx.message`.
-- You can find out the the _type_ of message that was received using `ctx.isMessage` or `ctx.isConnection`, since middleware functions fire on both new connections and when a message is received.
+- You can find out the the _type_ of message that was received using `ctx.isMessage`, `ctx.isConnection`, or `ctx.isClosing`, since middleware functions fire on new connections, when a message is received, and when the connection is closing.
 
 An important note is that any middleware you write can add properties/functions to the `ctx` object, and they will be accessible to every middleware for lifetime of the connection. This makes writing protocols and other stateful exchanges far easier.
 

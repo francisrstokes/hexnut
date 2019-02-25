@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha test/",
-    "coverage": "nyc mocha test/",
+    "coverage": "nyc --reporter=html mocha test/",
     "generate_docs": "jsdoc2md src/index.js > docs.md && jsdoc2md src/ctx.js >> docs.md"
   },
   "keywords": [

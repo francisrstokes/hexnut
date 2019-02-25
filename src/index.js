@@ -2,6 +2,7 @@ const WebSocket = require('ws');
 const uuid = require('uuid/v4');
 const config = require('./config');
 const createCtx = require('./ctx');
+const {SOCKET_SYMBOL} = require('./symbols');
 
 /**
  * @typedef {function(ctx, NextMiddlewareFn)} middleware
@@ -48,20 +49,38 @@ class HexNut {
 
     this.server.on('connection', (ws, req) => {
       const id = uuid();
-      const curCtx = createCtx(ws, req, this);
-      this.connections[id] = curCtx;
+      const ctx = createCtx(ws, req, this);
+      this.connections[id] = ctx;
 
-      this.runMiddleware(curCtx);
+      this.runMiddleware(ctx);
 
       ws.on('message', message => {
-        curCtx._reset(message);
-        this.runMiddleware(curCtx);
+        ctx._reset(message);
+        this.runMiddleware(ctx);
       });
 
       ws.on('close', () => {
-        delete this.connections[id];
+        ctx.message = null;
+        ctx.type = 'closing';
+        this.runMiddleware(ctx).then(() => {
+          delete this.connections[id];
+        });
       });
     });
+  }
+
+  /**
+   * Stop the HexNut Websocket Server
+   */
+  stop() {
+    if (this.isRunning) {
+      this.isRunning = false;
+      Object.entries(this.connections).forEach(([id, connection]) => {
+        connection[SOCKET_SYMBOL].close();
+        delete this.connections[id];
+      });
+      this.server.close();
+    }
   }
 
   /**

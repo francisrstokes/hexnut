@@ -37,6 +37,12 @@ Adds a middleware function to the HexNut instance
 Start the HexNut Websocket Server
 
 **Kind**: instance method of [<code>HexNut</code>](#HexNut)  
+
+### app.stop()
+Stop the HexNut Websocket Server
+
+**Kind**: instance method of [<code>HexNut</code>](#HexNut)  
+
 <a name="middleware"></a>
 
 ## middleware : <code>function</code>
@@ -59,11 +65,13 @@ Context object representing a HexNut connection
     - [new HexNut(wsConfig)](#new-hexnutwsconfig)
     - [app.use(middleware)](#appusemiddleware)
     - [app.start()](#appstart)
+    - [app.stop()](#appstop)
   - [middleware : <code>function</code>](#middleware--codefunctioncode)
   - [ctx](#ctx)
     - [ctx.message](#ctxmessage)
     - [ctx.isConnection](#ctxisconnection)
     - [ctx.isMessage](#ctxismessage)
+    - [ctx.isClosing](#ctxisclosing)
     - [ctx.requestHeaders](#ctxrequestheaders)
     - [ctx.ip](#ctxip)
     - [ctx.path](#ctxpath)
@@ -86,6 +94,11 @@ True if this activation of the middlware chain is a new connection
 
 ### ctx.isMessage
 True if this activation of the middlware chain is a new message
+
+<a name="ctx.isMessage"></a>
+
+### ctx.isClosing
+True if this activation of the middlware chain is a connection closing
 
 <a name="ctx.requestHeaders"></a>
 
