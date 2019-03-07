@@ -35,17 +35,17 @@ app.use(handle.connect(ctx => {
   };
 }));
 
-app.use(handle.message(msg => msg === 'A', ctx => {
+app.use(handle.matchMessage(msg => msg === 'A', ctx => {
   ctx.state.messagesReceived += 1;
   ctx.send(`It was an 'A' message. Received ${ctx.state.messagesReceived} messages.`);
 }));
 
-app.use(handle.message(msg => msg === 'B', ctx => {
+app.use(handle.matchMessage(msg => msg === 'B', ctx => {
   ctx.state.messagesReceived += 1;
   ctx.send(`It was an 'B' message. Received ${ctx.state.messagesReceived} messages.`);
 }));
 
-app.use(handle.message(() => true, ctx => {
+app.use(handle.message(ctx => {
   ctx.state.messagesReceived += 1;
   ctx.send(`Any other kind of message will go here. Received ${ctx.state.messagesReceived} messages.`);
 }));

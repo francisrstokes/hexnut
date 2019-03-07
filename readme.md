@@ -78,17 +78,17 @@ app.use(handle.connect(ctx => {
   ctx.count = 0;
 }));
 
-app.use(handle.message(
+app.use(handle.matchMessage(
   msg => msg === 'incCount',
   ctx => ctx.count++
 ));
 
-app.use(handle.message(
+app.use(handle.matchMessage(
   msg => msg === 'decCount',
   ctx => ctx.count--
 ));
 
-app.use(handle.message(
+app.use(handle.matchMessage(
   msg => msg === 'getCount',
   ctx => ctx.send(ctx.count)
 ));

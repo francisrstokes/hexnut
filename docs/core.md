@@ -76,15 +76,14 @@ app.use(handle.connect(
   ctx => ctx.send(`You said: ${ctx.message}!`)
 ));
 
-app.use(handle.message(
+app.use(handle.matchMessage(
   msg => msg === 'Hello', // Only run our handler if the message === 'Hello'
   ctx => ctx.send('You said "Hello"!')
 ));
 
-app.use(handle.message(
-  _ => true, // active for any message that gets here
-  ctx => ctx.send('You said anything else, except "Hello"!')
-));
+app.use(handle.message(ctx => {
+  ctx.send('You said anything else, except "Hello"!')
+}));
 ```
 
 Because middleware functions can be `async`, they can actually run code even after they have passed on to the next middleware by calling `next()`.
