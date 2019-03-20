@@ -1,5 +1,7 @@
 # Hexnut
 
+<img width="639" height="247" align="center" src="docs/logo.png" />
+
 Hexnut is a middleware based, express/koa like framework for web sockets.
 
 [![npm version](https://badge.fury.io/js/hexnut.svg)]()
