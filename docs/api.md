@@ -20,6 +20,11 @@ Create a new HexNut instance
 | --- | --- | --- |
 | wsConfig | <code>object</code> | Config object, mixed with defaults, passed to Websocket.Server constructor |
 
+#### Primary useful options for wsConfig
+
+* **port**: The port number of the server
+* **server**: A [http](https://nodejs.org/api/http.html)/[https](https://nodejs.org/api/https.html) node server instance. If passed, the websocket will use this server to accept connections. This option allows for interop with other frameworks like koa and express.
+
 <a name="HexNut+use"></a>
 
 ### app.use(middleware)
