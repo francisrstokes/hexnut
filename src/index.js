@@ -20,9 +20,8 @@ class HexNut {
    * Create a new HexNut instance
    * @param {object} wsConfig - Config object, mixed with defaults, passed to Websocket.Server constructor
    */
-  constructor(wsConfig = {}) {
+  constructor(wsConfig = config) {
     this.config = {
-      ...config,
       ...wsConfig
     };
     this.server = null;
