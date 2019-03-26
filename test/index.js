@@ -17,7 +17,7 @@ describe('HexNut App', () => {
 
   it('should have the default config when no opts are passed', () => {
     expect((new HexNut()).config).to.deep.equal(defaultConfig);
-    expect((new HexNut({})).config).to.deep.equal(defaultConfig);
+    expect((new HexNut({})).config).to.not.deep.equal(defaultConfig);
   });
 
   it('should add middleware', () => {
