@@ -15,3 +15,4 @@ The core documentation for `HexNut` is split into 3 parts:
 The recipes section documents some of the common practical uses of hexnut.
 
 1. <a href="recipes/integrating-with-an-existing-express-app.md">Integrating with an existing express app</a>
+1. <a href="recipes/guarding-middleware-authentication-and-permissions.md">Guarding middleware: Authentication and Permissions</a>
