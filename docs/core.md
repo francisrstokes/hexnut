@@ -67,7 +67,7 @@ app.use((ctx, next) => {
 });
 ```
 
-Writing these `if/else` statements and returning `next()` is going to get tedious and error prone and some point, so it's better to create an abstraction. <a href="https://github.com/francisrstokes/hexnut-handle/blob/master/index.js">A very simple one exists for this very purpose</a> called `hexnut-handle`. This is how it simplfies and makes the code more readable:
+Writing these `if/else` statements and returning `next()` is going to get tedious and error prone and some point, so it's better to create an abstraction. <a href="https://github.com/francisrstokes/hexnut-handle/blob/master/index.js">A very simple one exists for this very purpose</a> called `hexnut-handle`. This is how it simplifies and makes the code more readable:
 
 ```javascript
 const handle = require('hexnut-handle');
@@ -99,7 +99,7 @@ app.use(async (ctx, next) => {
   // After the next middleware has run, we can continue to run more code
   const endTime = Date.now();
 
-  console.log(`This middleware ran for ${endTime - startTime} milleseconds`);
+  console.log(`This middleware ran for ${endTime - startTime} milliseconds`);
 });
 ```
 
