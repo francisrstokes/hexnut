@@ -1,6 +1,6 @@
 {
-  "name": "hexnut",
-  "version": "0.1.1",
+  "name": "mohammadb-babaei-hexnut",
+  "version": "0.1.2",
   "description": "A middleware based framework for web sockets",
   "main": "src/index.js",
   "scripts": {
@@ -20,10 +20,12 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "jsdoc-to-markdown": "^5.0.3",
-    "mocha": "^8.0.1",
+    "mocha": "^8.2.1",
     "nyc": "^14.1.1"
   },
   "dependencies": {
+    "cookie": "^0.4.1",
+    "crypto": "^1.0.1",
     "uuid": "^3.3.2",
     "ws": "^6.1.4"
   }

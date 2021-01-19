@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 const uuid = require('uuid/v4');
 const config = require('./config');
 const createCtx = require('./ctx');
-const {SOCKET_SYMBOL} = require('./symbols');
+const { SOCKET_SYMBOL } = require('./symbols');
 
 /**
  * @typedef {function(ctx, NextMiddlewareFn)} middleware
@@ -20,7 +20,10 @@ class HexNut {
    * Create a new HexNut instance
    * @param {object} wsConfig - Config object, mixed with defaults, passed to Websocket.Server constructor
    */
-  constructor(wsConfig = config) {
+  constructor(wsConfig = config, cookieConfig = {
+    active: true,
+    cookieKey: "SESSIONID"
+  }) {
     this.config = {
       ...wsConfig
     };
@@ -66,6 +69,15 @@ class HexNut {
         });
       });
     });
+
+    if (this.cookieConfig.active) {
+      this.server.on('headers', (headers, req) => {
+        if (req.headers.cookie == null) {
+          headers.push('Set-Cookie: ' + cookie.serialize(this.cookieConfig.cookieKey, crypto.randomBytes(20).toString("hex")));
+        }
+      });
+    }
+
   }
 
   /**
@@ -101,7 +113,7 @@ class HexNut {
     let i = 0;
     const run = async idx => {
       if (!ctx.isComplete && typeof this.middleware[idx] === 'function') {
-        return await this.middleware[idx](ctx, () => run(idx+1));
+        return await this.middleware[idx](ctx, () => run(idx + 1));
       }
     };
     return run(i).catch(err => this.onError(err, ctx));

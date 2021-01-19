@@ -107,10 +107,11 @@ const ctx = {
 /**
  * @private
  */
-module.exports = (ws, req, app) => Object.assign(Object.create(ctx), {
+module.exports = (ws, req, headers, app) => Object.assign(Object.create(ctx), {
   app,
   type: 'connection',
   message: null,
   [SOCKET_SYMBOL]: ws,
   [REQUEST_SYMBOL]: req,
+  [REQUEST_HEADERS_SYMBOL]: headers,
 });
