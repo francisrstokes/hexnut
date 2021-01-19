@@ -113,5 +113,4 @@ module.exports = (ws, req, headers, app) => Object.assign(Object.create(ctx), {
   message: null,
   [SOCKET_SYMBOL]: ws,
   [REQUEST_SYMBOL]: req,
-  [REQUEST_HEADERS_SYMBOL]: headers,
 });

@@ -31,6 +31,7 @@ class HexNut {
     this.isRunning = false;
     this.middleware = [];
     this.connections = {};
+    this.cookieConfig = cookieConfig
   }
 
   /**
