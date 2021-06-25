@@ -1,6 +1,6 @@
 {
   "name": "hexnut",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A middleware based framework for web sockets",
   "main": "src/index.js",
   "scripts": {
@@ -24,6 +24,7 @@
     "nyc": "^14.1.1"
   },
   "dependencies": {
+    "@types/ws": "^7.4.5",
     "uuid": "^3.3.2",
     "ws": "^7.4.6"
   }
