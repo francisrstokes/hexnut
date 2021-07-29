@@ -6,7 +6,7 @@
 import { ServerOptions } from "ws";
 import { IncomingHttpHeaders } from 'http';
 
-export declare type MessageType = 'connection' | 'message' | 'close';
+export declare type MessageType = 'connection' | 'message' | 'closing';
 
 export declare type HTTPMethod =
   | 'GET'
