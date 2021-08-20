@@ -170,7 +170,7 @@ describe('HexNut App', () => {
     });
   });
 
-  it('should middlware asyncronously', done => {
+  it('should middleware asyncronously', done => {
     const app = new HexNut({port: PORT});
     app.start();
 
