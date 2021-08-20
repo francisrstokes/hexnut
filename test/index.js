@@ -5,6 +5,7 @@ const defaultConfig = require('../src/config');
 
 const PORT = process.env.PORT || 8181;
 const serverAddress = `ws://localhost:${PORT}`;
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms, 42));
 
 describe('HexNut App', () => {
   it('should create a app with no config opts', () => {
@@ -65,6 +66,48 @@ describe('HexNut App', () => {
         app.stop();
         done();
       }, 10);
+    });
+  });
+
+  it('should delay messages handling after connection handling', done => {
+    const app = new HexNut({port: PORT});
+
+    app.start();
+
+    let messageHandled = false;
+    let connectionHandled = false;
+
+    app.use(async (ctx, next) => {
+      if (ctx.isConnection) {
+        await wait(10);
+        expect(connectionHandled).to.be.false;
+        expect(messageHandled).to.be.false;
+        connectionHandled = true;
+      }
+      return next();
+    });
+
+    app.use((ctx, next) => {
+      if (ctx.isMessage) {
+        expect(connectionHandled).to.be.true;
+        messageHandled = true;
+      }
+      return next();
+    });
+
+    expect(messageHandled).to.be.false;
+    expect(connectionHandled).to.be.false;
+
+    const client = new Websocket(serverAddress);
+
+    client.on('open', ws => {
+      client.send(1);
+      setTimeout(() => {
+        expect(connectionHandled).to.be.true;
+        expect(messageHandled).to.be.true;
+        app.stop();
+        done();
+      }, 20);
     });
   });
 
