@@ -1,8 +1,11 @@
 const WebSocket = require('ws');
 const uuid = require('uuid/v4');
+const fastq = require('fastq');
 const config = require('./config');
 const createCtx = require('./ctx');
 const {SOCKET_SYMBOL} = require('./symbols');
+
+const noop = () => {};
 
 /**
  * @typedef {function(ctx, NextMiddlewareFn)} middleware
@@ -28,6 +31,8 @@ class HexNut {
     this.isRunning = false;
     this.middleware = [];
     this.connections = {};
+    this.queue = fastq(this, this.worker, 1);
+    this.queue.pause();
   }
 
   /**
@@ -37,6 +42,14 @@ class HexNut {
    */
   use(middleware) {
     this.middleware.push(middleware);
+  }
+
+  /**
+   * Process the messages
+   */
+  worker({ctx, message}) {
+    ctx._reset(message);
+    this.runMiddleware(ctx);
   }
 
   /**
@@ -51,11 +64,12 @@ class HexNut {
       const ctx = createCtx(ws, req, this);
       this.connections[id] = ctx;
 
-      this.runMiddleware(ctx);
+      this.runMiddleware(ctx).then(() => {
+        this.queue.resume();
+      });
 
       ws.on('message', message => {
-        ctx._reset(message);
-        this.runMiddleware(ctx);
+        this.queue.push({ctx, message}, noop);
       });
 
       ws.on('close', () => {
