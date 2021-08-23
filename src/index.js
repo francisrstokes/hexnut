@@ -82,6 +82,12 @@ class HexNut {
     });
   }
 
+  send(...args) {
+    Object.values(this.connections).forEach(ctx =>
+      ctx[SOCKET_SYMBOL].send(...args)
+    );
+  }
+
   /**
    * Stop the HexNut Websocket Server
    */
