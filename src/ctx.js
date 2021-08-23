@@ -32,9 +32,7 @@ const ctx = {
    * @param {*} data
    */
   sendToAll(...args) {
-    Object.values(this.app.connections).forEach(ctx =>
-      ctx[SOCKET_SYMBOL].send(...args)
-    );
+    this.app.send(...args);
     return this;
   },
 
