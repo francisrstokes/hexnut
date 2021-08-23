@@ -1,11 +1,8 @@
 const WebSocket = require('ws');
 const uuid = require('uuid/v4');
-const fastq = require('fastq');
 const config = require('./config');
 const createCtx = require('./ctx');
 const {SOCKET_SYMBOL} = require('./symbols');
-
-const noop = () => {};
 
 /**
  * @typedef {function(ctx, NextMiddlewareFn)} middleware
@@ -31,8 +28,7 @@ class HexNut {
     this.isRunning = false;
     this.middleware = [];
     this.connections = {};
-    this.queue = fastq(this, this.worker, 1);
-    this.queue.pause();
+    this.runSequencer = Promise.resolve();
   }
 
   /**
@@ -42,14 +38,6 @@ class HexNut {
    */
   use(middleware) {
     this.middleware.push(middleware);
-  }
-
-  /**
-   * Process the messages
-   */
-  worker({ctx, message}) {
-    ctx._reset(message);
-    this.runMiddleware(ctx);
   }
 
   /**
@@ -64,19 +52,23 @@ class HexNut {
       const ctx = createCtx(ws, req, this);
       this.connections[id] = ctx;
 
-      this.runMiddleware(ctx).then(() => {
-        this.queue.resume();
-      });
+      this.runSequencer = this.runSequencer.then(() => this.runMiddleware(ctx));
 
       ws.on('message', message => {
-        this.queue.push({ctx, message}, noop);
+        this.runSequencer = this.runSequencer.then(() => {
+          ctx.message = message;
+          ctx.type = 'message';
+          return this.runMiddleware(ctx);
+        });
       });
 
       ws.on('close', () => {
-        ctx.message = null;
-        ctx.type = 'closing';
-        this.runMiddleware(ctx).then(() => {
-          delete this.connections[id];
+        this.runSequencer = this.runSequencer.then(() => {
+          ctx.message = null;
+          ctx.type = 'closing';
+          return this.runMiddleware(ctx).then(() => {
+            delete this.connections[id];
+          });
         });
       });
     });
@@ -118,6 +110,7 @@ class HexNut {
         return await this.middleware[idx](ctx, () => run(idx+1));
       }
     };
+
     return run(i).catch(err => this.onError(err, ctx));
   }
 }
